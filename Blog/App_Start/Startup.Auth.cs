@@ -15,7 +15,7 @@ namespace Blog
         public void ConfigureAuth(IAppBuilder app)
         {
             // 配置数据库上下文、用户管理器和登录管理器，以便为每个请求使用单个实例
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(BlogDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
@@ -30,7 +30,7 @@ namespace Blog
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, User>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
